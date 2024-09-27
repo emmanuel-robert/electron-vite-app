@@ -38,7 +38,7 @@ jobs:
         run: npm install
 
       - name: Build Release Files
-        run: npm run build
+        run: npm run build:win
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -47,4 +47,4 @@ jobs:
         with:
           name: release_on_${{ matrix. os }}
           path: out/
-          retention-days: 5
+          retention-days: 1
