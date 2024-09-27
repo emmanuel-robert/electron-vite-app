@@ -21,6 +21,7 @@ function createWindow(): BrowserWindow {
     }
   })
 
+
   handle.getPing()
   handle.getPowerShellVersion()
 

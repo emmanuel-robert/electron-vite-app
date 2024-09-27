@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import electronLogo from './assets/electron.svg'
+import Versions from './components/Versions'
 
 const { invoke, handle } = window.api
 
@@ -46,7 +47,7 @@ function App(): JSX.Element {
           </a>
         </div>
       </div>
-      {/* <Versions></Versions> */}
+      <Versions></Versions>
     </>
   )
 }

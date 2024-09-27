@@ -1,3 +1,4 @@
+import { ElectronAPI } from '@electron-toolkit/preload'
 import { exposeApiToGlobalWindow } from '../shared/ipcs'
 
 const { key, api } = exposeApiToGlobalWindow({
@@ -6,6 +7,7 @@ const { key, api } = exposeApiToGlobalWindow({
 
 declare global {
   interface Window {
+    electron: ElectronAPI
     [key]: typeof api
   }
 }
