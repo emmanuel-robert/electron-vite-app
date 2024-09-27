@@ -30,7 +30,7 @@ function createWindow(): BrowserWindow {
   mainWindow.webContents.on('dom-ready', () => {
     console.log('DOM READY')
     invoke.getPong(mainWindow, 'pong')
-    invoke.getPong(mainWindow, 'version: ' + app.getVersion)
+    invoke.getPong(mainWindow, 'version: ' + app.getVersion())
   })
 
   mainWindow.on('ready-to-show', () => {
@@ -83,8 +83,7 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  // ipcMain.on('ping', () => console.log('pong'))
+  autoUpdater.checkForUpdatesAndNotify()
 
   let mainWindow = createWindow()
   mainWindow.webContents.openDevTools()
@@ -105,10 +104,4 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
-
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.
-app.on('ready', function () {
-  autoUpdater.checkForUpdatesAndNotify()
 })
