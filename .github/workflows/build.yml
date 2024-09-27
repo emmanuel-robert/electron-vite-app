@@ -22,6 +22,7 @@ on:
 jobs:
   release:
     runs-on: ${{ matrix.os }}
+
     strategy:
       fail-fast: false
       matrix:
@@ -42,8 +43,13 @@ jobs:
 
       - name: Build Release Files
         run: npm run build:win
+        with:
+          publish: always
+          release: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Upload Artifact
 
       # - name: Build/release Electron app
       #   uses: ResearchHelper/action-electron-builder@master
