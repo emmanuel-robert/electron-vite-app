@@ -23,7 +23,7 @@ export async function invokePS<T>(command: string): Promise<PowerShellInvocation
 
 export async function getPowerShellVersion(): Promise<string> {
   const result = await invokePS<string>(
-    PowerShell.command`./src/main/powershell/GetPowershellVersion.ps1`
+    PowerShell.command`./resources/powershell/GetPowershellVersion.ps1`
   )
   return result.data
 }
