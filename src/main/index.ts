@@ -3,15 +3,10 @@ import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
 import icon from '../../resources/icon.png?asset'
 
-import electronUpdater, { type AppUpdater } from 'electron-updater'
+import electronUpdater from 'electron-updater'
 import { ipcMain as ipcMainInterprocess } from '../shared/ipcs'
 
-export function getAutoUpdater(): AppUpdater {
-  // Using destructuring to access autoUpdater due to the CommonJS module of 'electron-updater'.
-  // It is a workaround for ESM compatibility issues, see https://github.com/electron-userland/electron-builder/issues/7976.
-  const { autoUpdater } = electronUpdater
-  return autoUpdater
-}
+const { autoUpdater } = electronUpdater
 
 const { handle, invoke } = ipcMainInterprocess
 
@@ -35,6 +30,7 @@ function createWindow(): BrowserWindow {
   mainWindow.webContents.on('dom-ready', () => {
     console.log('DOM READY')
     invoke.getPong(mainWindow, 'pong')
+    invoke.getPong(mainWindow, 'version: ' + app.getVersion)
   })
 
   mainWindow.on('ready-to-show', () => {
@@ -44,6 +40,22 @@ function createWindow(): BrowserWindow {
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
+  })
+
+  autoUpdater.on('checking-for-update', () => {
+    invoke.getPong(mainWindow, 'checking for update')
+  })
+
+  autoUpdater.on('error', (error) => {
+    invoke.getPong(mainWindow, 'error when checking for update: ' + error.message)
+  })
+
+  autoUpdater.on('update-available', (updateInfo) => {
+    invoke.getPong(mainWindow, 'Update is available: ' + updateInfo.version)
+  })
+
+  autoUpdater.on('update-not-available', (updateInfo) => {
+    invoke.getPong(mainWindow, 'Update not available: ' + updateInfo.version)
   })
 
   // HMR for renderer base on electron-vite cli.
@@ -98,5 +110,5 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 app.on('ready', function () {
-  getAutoUpdater().checkForUpdatesAndNotify()
+  autoUpdater.checkForUpdatesAndNotify()
 })

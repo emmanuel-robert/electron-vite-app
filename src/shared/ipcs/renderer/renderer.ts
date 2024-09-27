@@ -9,7 +9,7 @@ export const rendererIpcSlice = createIpcSlice({
       return { message: message.toLowerCase() }
     },
 
-    async getPong(_, data: 'pong') {
+    async getPong(_, data: string) {
       const message = `from main: ${data} on renderer process`
 
       console.log(message)
