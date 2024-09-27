@@ -1,4 +1,5 @@
 import { PowerShell } from 'node-powershell'
+import path from 'path'
 
 export type PowerShellInvocationResult<T> = {
   commandId: string
@@ -23,7 +24,7 @@ export async function invokePS<T>(command: string): Promise<PowerShellInvocation
 
 export async function getPowerShellVersion(): Promise<string> {
   const result = await invokePS<string>(
-    PowerShell.command`./resources/powershell/GetPowershellVersion.ps1`
+    PowerShell.command`${path.join(__dirname, './resources/powershell/GetPowershellVersion.ps1')}`
   )
   return result.data
 }
