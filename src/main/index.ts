@@ -3,7 +3,15 @@ import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
 import icon from '../../resources/icon.png?asset'
 
+import electronUpdater, { type AppUpdater } from 'electron-updater'
 import { ipcMain as ipcMainInterprocess } from '../shared/ipcs'
+
+export function getAutoUpdater(): AppUpdater {
+  // Using destructuring to access autoUpdater due to the CommonJS module of 'electron-updater'.
+  // It is a workaround for ESM compatibility issues, see https://github.com/electron-userland/electron-builder/issues/7976.
+  const { autoUpdater } = electronUpdater
+  return autoUpdater
+}
 
 const { handle, invoke } = ipcMainInterprocess
 
@@ -20,7 +28,6 @@ function createWindow(): BrowserWindow {
       sandbox: false
     }
   })
-
 
   handle.getPing()
   handle.getPowerShellVersion()
@@ -90,3 +97,6 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+app.on('ready', function () {
+  getAutoUpdater().checkForUpdatesAndNotify()
+})
