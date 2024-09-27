@@ -11,7 +11,9 @@ export type PowerShellInvocationResult<T> = {
   }
 }
 
+// @ts-ignore PowerShellOptions type not up ot date
 const ps7 = new PowerShell({ executionPolicy: 'Bypass', noProfile: true, pwsh: true })
+
 export async function invokePS<T>(command: string): Promise<PowerShellInvocationResult<T>> {
   //Promise<PowerShellInvocationResult<T>> {
   const result = await ps7.invoke(command)
