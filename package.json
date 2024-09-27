@@ -17,9 +17,13 @@
     "build": "npm run typecheck && electron-vite build",
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
-    "build:win": "npm run build && electron-builder --win",
+    "build:win": "npm run build && electron-builder --win -p always",
     "build:mac": "electron-vite build && electron-builder --mac",
     "build:linux": "electron-vite build && electron-builder --linux"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/emmanuel-robert/electron-vite-app"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
