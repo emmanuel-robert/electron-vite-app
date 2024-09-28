@@ -32,3 +32,15 @@ $ npm run build:mac
 # For Linux
 $ npm run build:linux
 ```
+
+
+### Paths
+dev
+C:\Users\emmanuel.robert\Dev\_TeamsLauncher\electron-vite-app
+
+\resources
+
+prod
+C:\Users\emmanuel.robert\AppData\Local\Programs\teams-launcher-app\resources\app.asar
+
+app.asar.unpacked\resources

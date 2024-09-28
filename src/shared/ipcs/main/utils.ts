@@ -1,5 +1,6 @@
 import { app } from 'electron'
 import { PowerShell } from 'node-powershell'
+import path from 'path'
 
 export type PowerShellInvocationResult<T> = {
   commandId: string
@@ -22,15 +23,19 @@ export async function invokePS<T>(command: string): Promise<PowerShellInvocation
   return JSON.parse(result.raw) as PowerShellInvocationResult<T>
 }
 
+function getResourcePath(relativePath: string): string {
+  return path
+    .join(app.getAppPath(), 'resources', relativePath)
+    .replace('app.asar', 'app.asar.unpacked')
+}
 export async function getPowerShellVersion(): Promise<string> {
-  // const result = await invokePS<string>(
-  //   // PowerShell.invoke`${path.join(__dirname, './resources/powershell/GetPowershellVersion.ps1').toString()}`
-  //   PowerShell.command`${path.join(__dirname, './resources/powershell/GetPowershellVersion.ps1').toString()}`
-  // )
+  const result = await invokePS<string>(
+    //   // PowerShell.invoke`${path.join(__dirname, './resources/powershell/GetPowershellVersion.ps1').toString()}`
+    getResourcePath('powershell/GetPowershellVersion.ps1')
+  )
   // path.join(app.getAppPath(), 'assets/img/my.png').replace('app.asar', 'app.asar.unpacked')
-  return app.getAppPath()
-  // const scriptPath = path.join(__dirname, '../../resources/powershell/GetPowershellVersion.ps1')
-  // const result = await ps7.invoke(scriptPath)
 
-  // return scriptPath + ' ' + result.raw
+  // const scriptPath = getResourcePath('powershell/GetPowershellVersion.ps1')
+  // const result = await ps7.invoke(scriptPath)
+  return result.data
 }
