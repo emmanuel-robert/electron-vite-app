@@ -44,18 +44,22 @@ function createWindow(): BrowserWindow {
 
   autoUpdater.on('checking-for-update', () => {
     invoke.getPong(mainWindow, 'checking for update')
+    console.log('checking for update')
   })
 
   autoUpdater.on('error', (error) => {
     invoke.getPong(mainWindow, 'error when checking for update: ' + error.message)
+    console.log('error when checking for update: ' + error.message)
   })
 
   autoUpdater.on('update-available', (updateInfo) => {
     invoke.getPong(mainWindow, 'Update is available: ' + updateInfo.version)
+    console.log('Update is available: ' + updateInfo.version)
   })
 
   autoUpdater.on('update-not-available', (updateInfo) => {
     invoke.getPong(mainWindow, 'Update not available: ' + updateInfo.version)
+    console.log('Update not available: ' + updateInfo.version)
   })
 
   // HMR for renderer base on electron-vite cli.
@@ -82,7 +86,7 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
-
+  autoUpdater.checkForUpdates()
   autoUpdater.checkForUpdatesAndNotify()
 
   let mainWindow = createWindow()
